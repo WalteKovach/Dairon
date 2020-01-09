@@ -16,24 +16,27 @@ struct fraction
  int denominator;
 };
 
-fraction multipy(num1,num2)
+void multiply(fraction &result,fraction &num1,fraction &num2)
 {
-
+result.numerator=num1.numerator*num2.numerator;
+result.denominator=num1.denominator*num2.denominator;
 }
 
 int main()
 {
     fraction num1;
     fraction num2;
+    fraction result;
     cout<<"Enter the numerator of the first number: ";
     cin>>num1.numerator;
     cout<<"Enter the denominator of the first number: ";
     cin>>num1.denominator;
-    cout<<"Enter the numerator of the second number: "
+    cout<<"Enter the numerator of the second number: ";
     cin>>num2.numerator;
-    cout<<"Enter the denominator of the second number: "
+    cout<<"Enter the denominator of the second number: ";
     cin>>num2.denominator;
-    
+    multiply(result,num1,num2);
+    cout<<result.numerator<<"/"<<result.denominator;
     
 
     return 0;
