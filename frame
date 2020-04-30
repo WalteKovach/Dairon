@@ -36,19 +36,24 @@ int main()
 {
 //////////////Создание рамок для последующей сортировки
 //////////////Несколько строк несколько столбцов с разбего плюс минус 5 см
-	const int N_FrameMax = 4;
+	const int N_FrameMax = 12;
 	frameCoordinates *frame=new frameCoordinates[N_FrameMax];
 
-	for (int row = 0; row < N_FrameMax/2; row++)//Создадим рамки
+	for (int row = 0; row < 3; row++)//Создадим рамки
 	{
-		for (int col= 0; col< N_FrameMax / 2;col++)
+		for (int col = 0; col < 4; col++)
 		{
 
-		frame[row * N_FrameMax / 2 + col].x = col*600 + rand() % 50;//Например ставим пять рядов 5 столбцов рамки косячно с погрешностью 5 см
-		frame[row * N_FrameMax / 2 + col].y = row*600 + rand() % 50;
-		frame[row * N_FrameMax / 2 + col].n = row * N_FrameMax / 2 + col;
+		frame[row * 4 + col].x = col * 600 + rand() % 50;//
+		frame[row * 4 + col].y = row * 600 + rand() % 50;
+		frame[row * 4 + col].n = row * 4 + col;
 
 		}
+	}
+	for (int i = 0; i < N_FrameMax; i++)
+	{
+		printFrame(frame[i]);
+		std::cout << std::endl;
 	}
 
 	for (int i = 0; i < N_FrameMax; i++)//Тусуем рамки
@@ -82,9 +87,10 @@ int main()
 		{
 			if (frame[i].y > TopFrameOnLine.y) TopFrameOnLine = frame[i];
 		}
+
 		for (int i = 0; i < nFrame; i++) 	//теперь в коридоре плюс минус 10 см создаем строку рамок
 		{
-			if (abs(frame[i].y - TopFrameOnLine.y) < 20)
+			if (abs(frame[i].y - TopFrameOnLine.y) < 200)
 			{
 				sortFrame[lineOfFrames[line].end].x = frame[i].x;
 				sortFrame[lineOfFrames[line].end].y = frame[i].y;
@@ -96,21 +102,28 @@ int main()
 		}
 
 		//теперь необходимо отсортировать строку по возрастанию слева направо
-
+		int delta = 0;
 		for (int i1 = lineOfFrames[line].start; i1 < lineOfFrames[line].end; i1++) //пузырьковая сортировка
 		{
 			bool flag = true;
-			for (int i2 = lineOfFrames[line].start; i2 < lineOfFrames[line].end - 1 - i1; i2++)
+			for (int i2 = lineOfFrames[line].start; i2 < lineOfFrames[line].end - 1 - delta; i2++)
 			{
 				if (sortFrame[i2].x > sortFrame[i2 + 1].x)
 				{
 					flag = false;
 					swapFrame(sortFrame[i2], sortFrame[i2 + 1]);
 				}
-				if (flag) break;
 			}
-
+			delta++;
+			if (flag) break;
 		}
+		std::cout << std::endl;
+		for (int i2 = lineOfFrames[line].start; i2 < lineOfFrames[line].end; i2++)
+		{
+			printFrame(sortFrame[i2]);
+			std::cout << std::endl;
+		}
+
 		line++;
 	}
 
